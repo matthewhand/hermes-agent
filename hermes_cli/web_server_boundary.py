@@ -272,7 +272,11 @@ def ws_host_origin_reason(ws, state) -> Optional[str]:
         parsed = None
     if parsed is not None and parsed.scheme not in {"http", "https"}:
         return None
-    if parsed is None or not parsed.netloc or not _is_accepted_host(parsed.netloc, bound_host, trusted_public_hosts):
+    xfh = {h.strip().lower() for h in ws.headers.get("x-forwarded-host", "").split(",") if h.strip()}
+    if parsed is None or not parsed.netloc or (
+        not _is_accepted_host(parsed.netloc, bound_host, trusted_public_hosts)
+        and parsed.netloc.lower() not in xfh
+    ):
         return f"origin_mismatch origin={origin} bound={bound_host}"
     # _is_accepted_host drops the port: a page on ANOTHER loopback port is a different origin, the
     # same one CORS refuses — without this it opens /api/pty with a token it read off index.html.
