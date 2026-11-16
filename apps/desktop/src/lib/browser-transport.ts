@@ -34,7 +34,7 @@ export function browserBootstrap(): BrowserBootstrap | null {
   const authRequired = win.__HERMES_AUTH_REQUIRED__ === true
   const basePath = normalizeBasePath(win.__HERMES_BASE_PATH__)
   const privateSession = !authRequired && win.__HERMES_UI_SURFACE__ === 'webapp'
-  const token = privateSession ? readWebappSession(basePath) : ''
+  const token = privateSession ? (readWebappSession(basePath) || (win as unknown as { __HERMES_SESSION_TOKEN__?: string }).__HERMES_SESSION_TOKEN__ || '') : ''
 
   return {
     authRequired,

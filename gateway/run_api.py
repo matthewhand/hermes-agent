@@ -84,7 +84,7 @@ class GatewayDashboardMount:
         # session token is a bearer credential any loopback peer (any OS user) could read from
         # GET /, so the gateway-hosted listener never publishes it.
         own_url = _listener_public_url(webapp)
-        web.app.state.withhold_session_token = own_url is not None
+        web.app.state.withhold_session_token = bool(own_url)
         if own_url is not None:
             web.app.state.listener_public_url = own_url
         elif hasattr(web.app.state, "listener_public_url"):
