@@ -70,7 +70,7 @@ POLICIES: dict[str, SurfacePolicy] = {
         own_origin_cookie_writes=False, web_access=True, browser_files=False,
         desktop_plugins=False, ui_preferences=False, client_direct_voice=True),
     "webapp": SurfacePolicy(
-        serves_spa=True, html_token=False, host_terminal=True, launch_link=True, gateway_ticket=True,
+        serves_spa=True, html_token=True, host_terminal=True, launch_link=True, gateway_ticket=True,
         own_origin_cookie_writes=True, web_access=True, browser_files=True,
         desktop_plugins=True, ui_preferences=True, client_direct_voice=False,
         gateway_connections=True),
